@@ -1,0 +1,9 @@
+D:\code\service\FileConverter\FileConverter\bin\Debug\FileConverter.exe.config
+D:\code\service\FileConverter\FileConverter\bin\Debug\FileConverter.exe
+D:\code\service\FileConverter\FileConverter\bin\Debug\FileConverter.pdb
+D:\code\service\FileConverter\FileConverter\bin\Debug\Topshelf.dll
+D:\code\service\FileConverter\FileConverter\bin\Debug\Topshelf.xml
+D:\code\service\FileConverter\FileConverter\obj\Debug\FileConverter.csprojResolveAssemblyReference.cache
+D:\code\service\FileConverter\FileConverter\obj\Debug\FileConverter.csproj.CoreCompileInputs.cache
+D:\code\service\FileConverter\FileConverter\obj\Debug\FileConverter.exe
+D:\code\service\FileConverter\FileConverter\obj\Debug\FileConverter.pdb
