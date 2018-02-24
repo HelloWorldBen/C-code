@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,6 +52,15 @@ namespace FileConverter
 
 
 
+		}
+
+		public void SessionChanged(Topshelf.SessionChangedArguments e)
+		{
+			
+
+			StreamWriter sw = new StreamWriter(@"D:\temp\sessionchange\input.txt", true);
+			sw.WriteLine(e.ReasonCode.ToString());
+			sw.Close();
 		}
 	}
 }
