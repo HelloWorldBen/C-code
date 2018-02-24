@@ -1,46 +1,67 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Topshelf;
+using System.IO;
 
 namespace FileConverter
 {
-	class Program
+	class ConverterService
 	{
-		static void Main(string[] args)
+		private System.IO.FileSystemWatcher _watcher;
+
+		public bool Start()
 		{
-			HostFactory.Run(serviceConfig =>
-			{
-				serviceConfig.Service<ConverterService>(serviceIntance =>
-				{
-					serviceIntance.ConstructUsing(() => new ConverterService());
-					serviceIntance.WhenStarted(execute => execute.Start());
-					serviceIntance.WhenStopped(execute => execute.Stop());
+			_watcher = new System.IO.FileSystemWatcher(@"D:\temp", "*.txt");
+			_watcher.Created += FileCreated;
+			_watcher.IncludeSubdirectories = false;
+			_watcher.EnableRaisingEvents = true;
+			return true;
 
-					serviceIntance.WhenPaused(execute => execute.Pause());
-					serviceIntance.WhenContinued(execute => execute.Continue());
 
-					
-				});
 
-				serviceConfig.EnableServiceRecovery(recoveryOption =>
-				{
-					recoveryOption.RestartService(1);
-					recoveryOption.RestartService(1);
-					recoveryOption.RestartService(1);
+		}
 
-				});
 
-				serviceConfig.EnablePauseAndContinue();
-				serviceConfig.SetServiceName("ConvertedService");
-				serviceConfig.SetDisplayName("File Converter");
-				serviceConfig.SetDescription("Demo Service");
+		public bool Pause()
+		{
+			_watcher.EnableRaisingEvents = false;
+			return true;
+		}
 
-				serviceConfig.StartAutomatically();
-			});
+		public bool Continue()
+		{
+			_watcher.EnableRaisingEvents = true;
 
+			return true;
+		}
+		private void FileCreated(object sender, FileSystemEventArgs e)
+		{
+			string content = File.ReadAllText(e.FullPath);
+			string uppercontent = content.ToUpperInvariant();
+			var dir = Path.GetDirectoryName(e.FullPath);
+			var convertedFileName = Path.GetFileName(e.FullPath);
+			var convertedPath = Path.Combine(dir, convertedFileName);
+			File.WriteAllText(convertedPath,uppercontent);
+		}
+		public bool Stop()
+		{
+			_watcher.Dispose();
+			return true;
+
+
+
+		}
+
+		// lock unlock login log off shutdown restart work station 
+		public void SessionChanged(Topshelf.SessionChangedArguments e)
+		{
+			
+
+			StreamWriter sw = new StreamWriter(@"D:\temp\sessionchange\input.txt", true);
+			sw.WriteLine(e.ReasonCode.ToString());
+			sw.Close();
 		}
 	}
 }
